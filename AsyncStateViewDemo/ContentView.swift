@@ -26,14 +26,13 @@ struct ContentView: View {
   @State var selectedTab: Tab
   
   var body: some View {
-    AsyncStateView(id: $selectedTab.id) {
-      await DataSource(withTab: selectedTab)
-    } hostedViewGenerator: {
-      TextView(dataSource: $0)
-    } errorViewGenerator: {
-      AsyncStatePlainErrorView(error: $0, onRetry: $1)
-    } loadingViewGenerator: {
-      LoadingView()
+    Group {
+      switch selectedTab.displayMode {
+      case .localContent:
+        localContentView
+      case .remoteContent:
+        remoteContentView
+      }
     }
     .safeAreaInset(edge: .top) {
       TabsView(tabs: tabs, selectedTab: $selectedTab)
@@ -41,6 +40,24 @@ struct ContentView: View {
     }
   }
   
+  private var localContentView: some View {
+    Text("This content is local, no need to async/await anything")
+      .padding()
+      .frame(maxHeight: .infinity)
+  }
+  
+  private var remoteContentView: some View {
+    AsyncStateView(id: $selectedTab.id) {
+      await DataSource(withTab: selectedTab)
+    } hostedViewGenerator: {
+      TextView(dataSource: $0)
+    } errorViewGenerator: {
+      ErrorView(error: $0, onRetry: $1)
+    } loadingViewGenerator: {
+      LoadingView()
+    }
+  }
+
   private struct LoadingView: View {
     var body: some View {
       HStack(spacing: 8) {
@@ -51,6 +68,23 @@ struct ContentView: View {
     }
   }
   
+  private struct ErrorView: View {
+
+      let error: Swift.Error
+      let onRetry: () -> ()
+      
+      public var body: some View {
+          VStack {
+              Text(error.localizedDescription)
+                  .multilineTextAlignment(.center)
+              Button("Retry") {
+                  self.onRetry()
+              }
+          }
+          .padding()
+      }
+  }
+
   private struct TextView: View {
   
     @ObservedObject var dataSource: DataSource

@@ -120,23 +120,6 @@ public struct AsyncStateView<Data, HostedView: View, ErrorView: View, LoadingVie
   }
 }
 
-public struct AsyncStatePlainErrorView: View {
-
-    let error: Swift.Error
-    let onRetry: () -> ()
-    
-    public var body: some View {
-        VStack {
-            Text(error.localizedDescription)
-                .multilineTextAlignment(.center)
-            Button("Retry") {
-                self.onRetry()
-            }
-        }
-        .padding()
-    }
-}
-
 private extension AsyncStateView.Operation {
   
   func isNonCancelledError(forID id: ID) -> Bool {

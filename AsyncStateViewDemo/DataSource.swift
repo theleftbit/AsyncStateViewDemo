@@ -31,10 +31,24 @@ class DataSource: ObservableObject {
   }
 }
 
+enum DisplayMode {
+  case localContent
+  case remoteContent
+}
+
 struct Tab: Identifiable {
   let title: String
   var id: String {
     title
+  }
+  
+  var displayMode: DisplayMode {
+    switch self.title {
+    case Tab.Feet:
+      return .localContent
+    default:
+      return .remoteContent
+    }
   }
   
   static func mockTabs() -> [Tab] {
@@ -44,6 +58,7 @@ struct Tab: Identifiable {
       .init(title: Car),
       .init(title: Boat),
       .init(title: Plane),
+      .init(title: Feet),
     ]
   }
   
@@ -52,5 +67,5 @@ struct Tab: Identifiable {
   static let Car = "🚗 Car"
   static let Boat = "🚢 Boat"
   static let Plane = "✈️ Plane"
-
+  static let Feet = "👣 Feet"
 }
