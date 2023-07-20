@@ -36,7 +36,7 @@ enum DisplayMode {
   case remoteContent
 }
 
-struct Tab: Identifiable {
+struct Tab: Identifiable, Equatable {
   let title: String
   var id: String {
     title

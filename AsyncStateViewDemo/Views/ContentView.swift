@@ -39,7 +39,7 @@ struct ContentView: View {
   }
   
   private var remoteContentView: some View {
-    AsyncStateView(id: $selectedTab.id) {
+    AsyncStateView(id: $selectedTab) {
       try await DataSource(withTab: selectedTab)
     } hostedViewGenerator: {
       TextView(dataSource: $0)
