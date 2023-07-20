@@ -7,19 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F57FF6C92A695B4800B4CABE /* AsyncStateViewDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57FF6C82A695B4800B4CABE /* AsyncStateViewDemoApp.swift */; };
+		F57FF6C92A695B4800B4CABE /* DemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57FF6C82A695B4800B4CABE /* DemoApp.swift */; };
 		F57FF6CB2A695B4800B4CABE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57FF6CA2A695B4800B4CABE /* ContentView.swift */; };
 		F57FF6CD2A695B4900B4CABE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F57FF6CC2A695B4900B4CABE /* Assets.xcassets */; };
 		F57FF6D12A695B4900B4CABE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F57FF6D02A695B4900B4CABE /* Preview Assets.xcassets */; };
+		F57FF6D82A695BA900B4CABE /* AsyncStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57FF6D72A695BA900B4CABE /* AsyncStateView.swift */; };
+		F57FF6DA2A695C5E00B4CABE /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F57FF6D92A695C5E00B4CABE /* DataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F57FF6C52A695B4800B4CABE /* AsyncStateViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncStateViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F57FF6C82A695B4800B4CABE /* AsyncStateViewDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncStateViewDemoApp.swift; sourceTree = "<group>"; };
+		F57FF6C82A695B4800B4CABE /* DemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoApp.swift; sourceTree = "<group>"; };
 		F57FF6CA2A695B4800B4CABE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F57FF6CC2A695B4900B4CABE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F57FF6CE2A695B4900B4CABE /* AsyncStateViewDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AsyncStateViewDemo.entitlements; sourceTree = "<group>"; };
 		F57FF6D02A695B4900B4CABE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F57FF6D72A695BA900B4CABE /* AsyncStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncStateView.swift; sourceTree = "<group>"; };
+		F57FF6D92A695C5E00B4CABE /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +56,9 @@
 		F57FF6C72A695B4800B4CABE /* AsyncStateViewDemo */ = {
 			isa = PBXGroup;
 			children = (
-				F57FF6C82A695B4800B4CABE /* AsyncStateViewDemoApp.swift */,
+				F57FF6C82A695B4800B4CABE /* DemoApp.swift */,
+				F57FF6D72A695BA900B4CABE /* AsyncStateView.swift */,
+				F57FF6D92A695C5E00B4CABE /* DataSource.swift */,
 				F57FF6CA2A695B4800B4CABE /* ContentView.swift */,
 				F57FF6CC2A695B4900B4CABE /* Assets.xcassets */,
 				F57FF6CE2A695B4900B4CABE /* AsyncStateViewDemo.entitlements */,
@@ -139,8 +145,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F57FF6D82A695BA900B4CABE /* AsyncStateView.swift in Sources */,
 				F57FF6CB2A695B4800B4CABE /* ContentView.swift in Sources */,
-				F57FF6C92A695B4800B4CABE /* AsyncStateViewDemoApp.swift in Sources */,
+				F57FF6DA2A695C5E00B4CABE /* DataSource.swift in Sources */,
+				F57FF6C92A695B4800B4CABE /* DemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

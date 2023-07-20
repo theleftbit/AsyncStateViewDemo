@@ -8,10 +8,12 @@
 import SwiftUI
 
 @main
-struct AsyncStateViewDemoApp: App {
+struct DemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+          ContentView(
+            tabs: Tab.mockTabs()
+          )
         }
     }
 }
