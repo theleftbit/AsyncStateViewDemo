@@ -11,8 +11,8 @@ class DataSource: ObservableObject {
   
   @Published var content: String
   
-  init(withTab tab: Tab) async {
-    try? await Task.sleep(for: .seconds(1))
+  init(withTab tab: Tab) async throws {
+    try await Task.sleep(for: .seconds(1))
   
     switch tab.title {
     case Tab.Skate:

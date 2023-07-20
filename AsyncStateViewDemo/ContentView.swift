@@ -7,14 +7,6 @@
 
 import SwiftUI
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView(
-      tabs: Tab.mockTabs()
-    )
-  }
-}
-
 struct ContentView: View {
   
   init(tabs: [Tab]) {
@@ -48,7 +40,7 @@ struct ContentView: View {
   
   private var remoteContentView: some View {
     AsyncStateView(id: $selectedTab.id) {
-      await DataSource(withTab: selectedTab)
+      try await DataSource(withTab: selectedTab)
     } hostedViewGenerator: {
       TextView(dataSource: $0)
     } errorViewGenerator: {
