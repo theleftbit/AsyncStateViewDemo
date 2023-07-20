@@ -15,6 +15,7 @@ struct RootView: View {
   }
   
   static func fetchTabs() async throws -> [Tab] {
+    /// Simulate a network fetch...
     try await Task.sleep(for: .seconds(1))
     return Tab.mockTabs()
   }

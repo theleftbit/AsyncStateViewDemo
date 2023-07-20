@@ -12,6 +12,7 @@ class DataSource: ObservableObject {
   @Published var content: String
   
   init(withTab tab: Tab) async throws {
+    /// Simulate more network fetches
     try await Task.sleep(for: .seconds(1))
   
     switch tab.title {
