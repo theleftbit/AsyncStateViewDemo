@@ -1,6 +1,6 @@
 Hello SwiftUI team,
 
-In order to ease our transition to SwiftUI, we created a generic view called `AsyncStateView` that helps developers build UIs where the data is coming from HTTPS servers.
+In order to ease our transition to SwiftUI, we created a generic view called `AsyncStateView` that helps developers build UIs where the data is coming from remote web servers.
 
 This, paired with SwiftUI's data-driven approach, has enabled our developers to be more productive and build more engaging user interfaces.
 
@@ -53,6 +53,8 @@ https://github.com/theleftbit/AsyncStateViewDemo/assets/869981/6eb35c73-d1db-4cc
 Turns out that we are using `Group` in another place, now in the `ContentView` to decide what view to display after a user's [selection:](https://github.com/theleftbit/AsyncStateViewDemo/blob/main/AsyncStateViewDemo/Views/ContentView.swift#L21)
 
 Changing that to a `VStack` with just one element _also_ fixes this issue. Which brings again the question? Why? Isn't this what `Group` is for? to create views using conditional logic and applying view modifiers to it? We tried breaking this logic apart in a different subview but coudln't see any different result. Only wrapping it in a `VStack` would do.
+
+We are asking these questions because, even though we have a valid workaround, `AsyncStateView` is one of the core types that we are using to build the rest of the UI and we'd like to know if there are any deficiencies on it's implementation. 
 
 Thanks for your help and sorry for the long long question, but lots of moving pieces and this is as narrowed down as we could do it. 
 
