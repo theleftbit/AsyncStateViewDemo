@@ -18,17 +18,20 @@ struct ContentView: View {
   @State var selectedTab: Tab
   
   var body: some View {
-    Group {
-      switch selectedTab.displayMode {
-      case .localContent:
-        localContentView
-      case .remoteContent:
-        remoteContentView
+    actualView
+      .safeAreaInset(edge: .top) {
+        TabsView(tabs: tabs, selectedTab: $selectedTab)
+          .background(.thinMaterial)
       }
-    }
-    .safeAreaInset(edge: .top) {
-      TabsView(tabs: tabs, selectedTab: $selectedTab)
-        .background(.thinMaterial)
+  }
+  
+  @ViewBuilder
+  var actualView: some View {
+    switch selectedTab.displayMode {
+    case .localContent:
+      localContentView
+    case .remoteContent:
+      remoteContentView
     }
   }
   

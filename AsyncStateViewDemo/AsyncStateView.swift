@@ -58,20 +58,23 @@ public struct AsyncStateView<Data, HostedView: View, ErrorView: View, LoadingVie
   }
   
   public var body: some View {
-    Group {
-      switch currentOperation.phase {
-      case .idle, .loading:
-        loadingView
-      case .loaded(let data):
-        hostedViewGenerator(data)
-      case .error(let error):
-        errorViewGenerator(error, {
-          fetchData()
-        })
+    actualView
+      .task(id: id) {
+        await fetchData()
       }
-    }
-    .task(id: id) {
-      await fetchData()
+  }
+
+  @ViewBuilder
+  private var actualView: some View {
+    switch currentOperation.phase {
+    case .idle, .loading:
+      loadingView
+    case .loaded(let data):
+      hostedViewGenerator(data)
+    case .error(let error):
+      errorViewGenerator(error, {
+        fetchData()
+      })
     }
   }
   
