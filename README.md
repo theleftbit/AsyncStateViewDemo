@@ -20,39 +20,42 @@ https://github.com/theleftbit/AsyncStateViewDemo/assets/869981/ace720af-d6da-40d
 
 During our debugging, we narrowed down the problem to `AsyncStateView`'s `body` [implementation](https://github.com/theleftbit/AsyncStateViewDemo/blob/main/AsyncStateViewDemo/AsyncStateView.swift#L61):
 
-```
+```swift
   public var body: some View {
-    Group {
-      switch currentOperation.phase {
-      case .idle, .loading:
-        loadingView
-      case .loaded(let data):
-        hostedViewGenerator(data)
-      case .error(let error):
-        errorViewGenerator(error, {
-          fetchData()
-        })
+    actualView
+      .task(id: id) {
+        await fetchData()
       }
-    }
-    .task(id: id) {
-      await fetchData()
-    }
   }
+
+  @ViewBuilder
+  private var actualView: some View {
+    switch currentOperation.phase {
+    case .idle, .loading:
+      loadingView
+    case .loaded(let data):
+      hostedViewGenerator(data)
+    case .error(let error):
+      errorViewGenerator(error, {
+        fetchData()
+      })
+    }
+  } 
 ```
 
-Changing the outer `Group` to a `VStack` fixes the issue we are seeing changing the selected element in the `TabView` on top. 
+Changing the `actualView` implemetation from a `@ViewBuilder` to a `VStack` fixes the issue we are seeing changing the selected element in the `TabView` on top. 
 
-We don't know why this change would have any effect, but we are inclined to think that this is due to SwiftUI not being able to figure out the Structural Identity of this View when using a `Group`, which brings the question: Why? 
+We don't know why this change would have any effect, but we are inclined to think that this is due to SwiftUI not being able to figure out the Structural Identity of this View when using a `@ViewBuilder`, which brings the question: Why? 
 
-We tried debugging with `Self._printChanges()` but couldn't see any significant changes. Also moving the logic of that `switch` statement inside a computed property with the help of `@ViewBuilder` seems to generate the same results as with `Group`. Why is a VStack with one element better in terms of generating a stable Structural Identity? Or maybe that is not the problem, but `VStack` is a workaround? We also started wondering if maybe creating the views inside the `body` using an `@escaping` closure would be a problem, but `AsyncImage` (among other Views in the SDK) do it like this, so we couldn't conclude anything in that front.
+We tried debugging with `Self._printChanges()` but couldn't see any significant changes. We also tried using `Group` but the result is the same. Why is a `VStack` with one element better in terms of generating a stable Structural Identity? Or maybe that is not the problem, but `VStack` is a workaround? We also started wondering if maybe creating the views inside the `body` using an `@escaping` closure would be a problem, but `AsyncImage` (among other Views in the SDK) do it like this, so we couldn't conclude anything in that front.
 
-So, if you where to only make this change (swap `Group` for `VStack` in AsyncStateView.swift line 61) and run the project, the behaviour would be almost be correct: if you scroll all the way to the "Feet" tab and select it, it would also glitch.
+So, if you where to only make this change (swap `@ViewBuilder` for `VStack` in AsyncStateView.swift line 61) and run the project, the behaviour would be almost be correct: if you scroll all the way to the "Feet" tab and select it, it would also glitch.
 
 https://github.com/theleftbit/AsyncStateViewDemo/assets/869981/6eb35c73-d1db-4ccc-bd5e-4015766ff6f6
 
-Turns out that we are using `Group` in another place, now in the `ContentView` to decide what view to display after a user's [selection:](https://github.com/theleftbit/AsyncStateViewDemo/blob/main/AsyncStateViewDemo/Views/ContentView.swift#L21)
+Turns out that we are using `@ViewBuilder` in another place, now in the `ContentView` to decide what view to display after a user's [selection:](https://github.com/theleftbit/AsyncStateViewDemo/blob/main/AsyncStateViewDemo/Views/ContentView.swift#L21)
 
-Changing that to a `VStack` with just one element _also_ fixes this issue. Which brings again the question? Why? Isn't this what `Group` is for? to create views using conditional logic and applying view modifiers to it? We tried breaking this logic apart in a different subview but coudln't see any different result. Only wrapping it in a `VStack` would do.
+Changing that to a `VStack` with just one element _also_ fixes this issue. Which brings again the question? Why? Isn't this what `@ViewBuilder` or `Group` is for? to create views using conditional logic and applying view modifiers to it? We tried breaking this logic apart in a different subview but coudln't see any different result. Only wrapping it in a `VStack` would do.
 
 We are asking these questions because, even though we have a valid workaround, `AsyncStateView` is one of the core types that we are using to build the rest of the UI and we'd like to know if there are any deficiencies on it's implementation. 
 
