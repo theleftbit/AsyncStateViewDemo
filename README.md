@@ -61,5 +61,7 @@ We are asking these questions because, even though we have a valid workaround, `
 
 Thanks for your help and sorry for the long long question, but lots of moving pieces and this is as narrowed down as we could do it. 
 
+Note: Filed as FB12999346
+
 
 
